@@ -5,8 +5,14 @@ Student Number:  118418235
 Student Email:  klazara@myseneca.ca
 Date Created:  2024-09-20
 
-GITHUB URL:  
-VERCEL URL:   
+GITHUB URL: https://github.com/LeBonbonn/Web322_Assignments
+VERCEL URL: https://vercel.com/lebonbons-projects/web322-assignments/78yrPBDWdWPiWBBvMCuRxU4zP6HW  
+
+https://web322-assignments-chi.vercel.app/
+
+https://web322-assignments-git-master-lebonbons-projects.vercel.app/
+
+https://web322-assignments-an4e7mdib-lebonbons-projects.vercel.app/
 
 ### Technology Stack
 
