@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "title": "Introcution to Programming using C",
+        "content": "C is the bases of the programming...",
+        "author": "Steve lung",
+        "published": false,
+        "category":"Programming"
+    },
+    {
+        "id":2,
+        "title": "The reign of greed",
+        "content": "Filipino-American war, filipino heroes...",
+        "author": "Dr. Jose Rizal",
+        "published": true,
+        "category": "History"
+    }
+]
