@@ -1,9 +1,15 @@
+const path = require('path');
 const express = require('express');
 const app = express();
-const HTTP_PORT = process.env.PORT || 8080;
+const HTTP_PORT = process.env.PORT || 4545;
+app.use(express.static('public'));
 
 app.get('/',(req,res) =>{
-    res.send('<h1>Keir Ruel Lazara - 118418235<h1>')
+    res.redirect('/about');
 });
 
-app.listen(HTTP_PORT, () => console.log('server listening on: ${HTTP_PORT}'));
+app.get('/about',(req,res) =>{
+    res.sendFile(path.join(__dirname, '/views/about.html'));
+});
+
+app.listen(HTTP_PORT, () => console.log(`Express http server listening on port ${HTTP_PORT}`));
