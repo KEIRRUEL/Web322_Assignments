@@ -12,4 +12,16 @@ app.get('/about',(req,res) =>{
     res.sendFile(path.join(__dirname, '/views/about.html'));
 });
 
+app.get('/Home',(req,res) =>{
+    res.sendFile(path.join(__dirname, '/views/home.html'));
+});
+
+app.get('/articles',(req,res) =>{
+    res.sendFile(path.join(__dirname, '/views/articles.html'));
+});
+
+app.get('/categories',(req,res) =>{
+    res.sendFile(path.join(__dirname, '/views/categories.html'));
+});
+
 app.listen(HTTP_PORT, () => console.log(`Express http server listening on port ${HTTP_PORT}`));

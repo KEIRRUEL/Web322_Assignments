@@ -1,0 +1,3 @@
+initialize();
+getPublishedArticles();
+getCategories();
