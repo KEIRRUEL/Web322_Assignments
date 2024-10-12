@@ -2,7 +2,8 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const HTTP_PORT = process.env.PORT || 4545;
-app.use(express.static('public'));
+const blog = require("./content-service");
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.get('/',(req,res) =>{
     res.redirect('/about');
