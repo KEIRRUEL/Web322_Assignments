@@ -10,11 +10,12 @@ module.exports =
         {
             fs.readFile('./data/articles.json', 'utf8', (err, data) => 
                 {
-                     if (err) throw err;
+                    if (err) throw err;
                         console.log(data);
                     try
                     {
                         articles = JSON.parse(data);
+                        resolve("success");
                     }
                     catch (Error)
                     {
@@ -32,7 +33,7 @@ module.exports =
                     try
                     {
                         categories = JSON.parse(data);
-                         resolve("success");
+                        resolve("success");
                     }
                     catch (Error)
                     {
