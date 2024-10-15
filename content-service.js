@@ -10,8 +10,11 @@ module.exports =
         {
             fs.readFile('./data/articles.json', 'utf8', (err, data) => 
                 {
-                    if (err) throw err;
+                    if (err)
+                    {
+                        reject("unable to read file");
                         console.log(data);
+                    }
                     try
                     {
                         articles = JSON.parse(data);
