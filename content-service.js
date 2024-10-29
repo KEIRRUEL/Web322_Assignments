@@ -17,7 +17,6 @@ module.exports =
                     try
                     {
                         articles = JSON.parse(data);
-                        resolve("success");
                     }
                     catch (Error)
                     {
