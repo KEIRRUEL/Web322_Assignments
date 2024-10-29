@@ -19,12 +19,12 @@ app.get('/Home',(req,res) =>{
 blog.initialize().then(() =>
 {
 app.get('/articles',(req,res) =>{
-    blog.getAllArticles().then(articles => res.send(articles))
+    blog.getAllArticles().then(articles => res.json(articles))
     .catch((err) => {"Error"});
 });
 
 app.get('/categories',(req,res) =>{
-    blog.getCategories().then(categories => res.send(categories))
+    blog.getCategories().then(categories => res.json(categories))
     .catch((err) => {"Error"});
 });
 }).catch((error) => {"Error"});

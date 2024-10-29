@@ -1,5 +1,4 @@
 const fs = require("fs");
-
 let articles =  []
 let categories =  []
 module.exports = 
