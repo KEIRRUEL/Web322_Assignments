@@ -34,7 +34,6 @@ module.exports =
                     try
                     {
                         categories = JSON.parse(data);
-                        resolve("success");
                     }
                     catch (Error)
                     {
@@ -51,7 +50,6 @@ module.exports =
             const publishedArticle = articles.filter(article => article.published);
             if(publishedArticle.length > 0)
             {
-                resolve(publishedArticle);
             }
             else
             {
@@ -65,7 +63,6 @@ module.exports =
         {
             if(articles.length > 0)
             {
-                resolve(articles);
             }
             else
             {
@@ -80,7 +77,6 @@ module.exports =
             {
                 if(categories.length > 0)
                 {
-                    resolve(categories);
                 }
                 else
                 {
