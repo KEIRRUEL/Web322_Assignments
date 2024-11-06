@@ -34,6 +34,7 @@ module.exports =
                     try
                     {
                         categories = JSON.parse(data);
+                        resolve("success");
                     }
                     catch (Error)
                     {
