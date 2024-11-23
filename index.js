@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
 
 // Route for the "/about" page, serving the "about.html" file
 app.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname, "/views/about.html"));
+  res.render(path.join(__dirname, "/views/about.ejs"));
 });
 
 // Route for the "/categories" endpoint, returning categories in JSON format
@@ -91,7 +91,7 @@ app.get("/article/:Id", (req, res) => {
 });
 
 app.get("/articles/add", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "addArticle.html"));
+  res.render(path.join(__dirname, "views", "addArticle.ejs"));
 });
 
 app.post('/articles/add', upload.single("featureImage"), (req, res) => {
