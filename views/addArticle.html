@@ -3,75 +3,120 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>HNN - Harry News Network</title>
+    <!-- Bootstrap CSS -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
     />
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="/css/main.css" />
+    <link href="/css/main.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>ADD Article</h1>
-    <form action="/articles/add" method="POST" enctype="multipart/form-data">
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          placeholder="Enter article title"
-          required
-        />
+    <!-- Header with Navigation -->
+    <header class="bg-primary text-white p-3">
+      <div class="container">
+        <nav class="nav justify-content-center">
+          <a class="nav-link text-white" href="/">Home</a>
+          <a class="nav-link text-white" href="/about">About</a>
+          <a class="nav-link text-white" href="/articles">Articles</a>
+          <a class="nav-link text-white" href="/categories">Categories</a>
+          <a class="nav-link text-white" href="/articles/add">Add Article</a>
+        </nav>
       </div>
-      <div class="mb-3">
-        <label for="content" class="form-label">Content</label>
-        <textarea
-          class="form-control"
-          id="content"
-          rows="5"
-          placeholder="Write your content in here..."
-          required
-        ></textarea>
+    </header>
+
+    <!-- Content Area -->
+    <main class="container my-4">
+      <div class="content p-4 bg-light">
+        <h2>Add Article</h2>
+        <form
+          action="/articles/add"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <!-- Title -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Article Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              class="form-control"
+              placeholder="Enter article title"
+              required
+            />
+          </div>
+
+          <!-- Content -->
+          <div class="mb-3">
+            <label for="content" class="form-label">Article Content</label>
+            <textarea
+              id="content"
+              name="content"
+              class="form-control"
+              rows="5"
+              placeholder="Write your article content here..."
+              required
+            ></textarea>
+          </div>
+
+          <!-- Category -->
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select id="category" name="category" class="form-select" required>
+              <option value="News">News</option>
+              <option value="Sports">Sports</option>
+              <option value="Technology">Technology</option>
+              <option value="Entertainment">Entertainment</option>
+            </select>
+          </div>
+
+          <!-- Publish -->
+          <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              id="published"
+              name="published"
+              class="form-check-input"
+            />
+            <label for="published" class="form-check-label"
+              >Publish this article</label
+            >
+          </div>
+
+          <!-- Image Upload -->
+          <div class="mb-3">
+            <label for="featureImage" class="form-label">Featured Image</label>
+            <input
+              type="file"
+              id="featureImage"
+              name="featureImage"
+              class="form-control"
+              accept="image/*"
+            />
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary">Add Article</button>
+        </form>
       </div>
-      <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-        <select class="form-select" id="category" name="category" required>
-          <option value="News">News</option>
-          <option value="Sports">Sports</option>
-          <option value="Tech">Technology</option>
-          <option value="Entertainment">Entertainment</option>
-        </select>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+      <div class="container">
+        <p>
+          © 2024 Harry Scanlan, 1234567,
+          <a href="mailto:harry.scanlan@senecapolytechnic.ca"
+            >harry.scanlan@senecapolytechnic.ca</a
+          >. All rights reserved.
+        </p>
       </div>
-      <div class="mb-3 form-check">
-        <input
-          type="checkbox"
-          id="published"
-          name="published"
-          class="form-check-input"
-        />
-        <label class="form-check-label" for="published">Publish?</label>
-      </div>
-      <div class="mb-3">
-        <label for="image" class="form-label">Image</label>
-        <input
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
-          class="form-control"
-        />
-      </div>
-      <div>
-        <button type="submit" class="btn btn-primary">Add Articles</button>
-      </div>
-    </form>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>

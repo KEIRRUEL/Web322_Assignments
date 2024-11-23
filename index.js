@@ -1,92 +1,154 @@
-const path = require('path');
-const express = require('express');
-const app = express();
-const HTTP_PORT = process.env.PORT || 4545;
-const blog = require("./content-service");
-app.use(express.static(path.join(__dirname, '/public')));
+// Import the Express library
+const express = require("express");
 
-const multer = require("multer"); 
-const cloudinary = require('cloudinary').v2; 
-const streamifier = require('streamifier'); 
+const multer = require("multer");
+
+const cloudinary = require("cloudinary").v2;
+
+const streamifier = require("streamifier");
 
 cloudinary.config({ 
-   cloud_name: 'dilreqd3n', 
-   api_key: '923798686465718', 
-   api_secret: 'RC9LSh6GmnViR_l23qFOSFWBjVI', 
-   secure: true 
+  cloud_name: 'dilreqd3n', 
+  api_key: '923798686465718', 
+  api_secret: 'RC9LSh6GmnViR_l23qFOSFWBjVI', 
+  secure: true 
+});
+const upload = multer();
+
+// Import the 'path' module to handle file paths
+const path = require("path");
+
+// Import the custom data handling module, assumed to manage categories and articles
+const contentService = require("./content-service");
+
+// Create an Express application instance
+const app = express();
+
+// Set the HTTP port to an environment variable or default to 3838
+const HTTP_PORT = process.env.PORT || 3838;
+
+// Serve static files from the "public" directory (e.g., CSS, JS files, images)
+app.use(express.static("public"));
+
+// Route for the root path, redirecting to the "/about" page
+app.get("/", (req, res) => {
+  res.redirect("/about");
 });
 
-const upload = multer(); // No disk storage, files are stored in memory 
-app.get('/',(req,res) =>{
-    res.redirect('/about');
+// Route for the "/about" page, serving the "about.html" file
+app.get("/about", (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/about.html"));
 });
 
-app.get('/about',(req,res) =>{
-    res.sendFile(path.join(__dirname, '/views/about.html'));
+// Route for the "/categories" endpoint, returning categories in JSON format
+app.get("/categories", (req, res) => {
+  contentService.getCategories().then((data) => {
+    res.json(data); // Respond with categories as JSON
+  });
 });
 
-app.get('/Home',(req,res) =>{
-    res.sendFile(path.join(__dirname, '/views/home.html'));
-});
-blog.initialize().then(() =>
-{
-app.get('/articles',(req,res) =>{
-    let filter = {};
-    if (req.query.getArticlesByCategory){
-        filter.getArticlesByCategory = req.query.getArticlesByCategory;
-    }
-    if (req.query.getArticlesByMinDate){
-        filter.getArticlesByMinDate =req.query.getArticlesByMinDate;
-    }
-    blog.getArticles(filter).then(articles => res.json(articles))
-    .catch((err) => {"Error"});
+app.get('/articles', (req, res, next) => {
+  if (req.query.category) {
+      // Handle filtering by category
+      contentService.getArticlesByCategory(req.query.category)
+          .then((articles) => {
+              res.json(articles);
+          })
+          .catch((err) => {
+              res.status(404).json({ message: err });
+          });
+  } else if (req.query.minDate) {
+      // Handle filtering by minDate
+      contentService.getArticlesByMinDate(req.query.minDate)
+          .then((articles) => {
+              res.json(articles);
+          })
+          .catch((err) => {
+              res.status(404).json({ message: err });
+          });
+  } else {
+      // If no query parameters, fetch all articles
+      contentService.getAllArticles()
+          .then((articles) => {
+              res.json(articles);
+          })
+          .catch((err) => {
+              res.status(404).json({ message: err });
+          });
+  }
 });
 
-app.get('/articles/id',(req,res) =>{
-    blog.getArticleById(req.params.id).then(articles => res.json(articles))
-    .catch((err) => {"Error"});
+
+app.get("/article/:Id", (req, res) => {
+  contentService
+    .getArticleById(req.params.Id)
+    .then((article) => {
+      res.json(article);
+    })
+    .catch((err) => {
+      res.status(404).json({ message: err });
+    });
 });
 
-app.get('/categories',(req,res) =>{
-    blog.getCategories().then(categories => res.json(categories))
-    .catch((err) => {"Error"});
+app.get("/articles/add", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "addArticle.html"));
 });
 
-app.get('/articles/add', (req, res) => { 
-    res.sendFile(path.join(__dirname, 'views', 'addArticle.html')); 
- });
+app.post('/articles/add', upload.single("featureImage"), (req, res) => {
+  if (req.file) {
+      let streamUpload = (req) => {
+          return new Promise((resolve, reject) => {
+              let stream = cloudinary.uploader.upload_stream(
+                  { folder: 'articles' }, // Optional: Store in a specific folder
+                  (error, result) => {
+                      if (result) resolve(result);
+                      else reject(error);
+                  }
+              );
+              streamifier.createReadStream(req.file.buffer).pipe(stream);
+          });
+      };
 
- app.post('/articles/add', upload.single("image"), (req, res) => { // Add article to content-service 
-     if (req.file) { // request file exists 
-         let streamUpload = (req) => { // made streamupload request 
-             return new Promise((resolve, reject) => { // made a promise for the streamupload 
-                 let stream = cloudinary.uploader.upload_stream( // declared stream for cloudinary 
-                     (error, result) => { // error and result 
-                         if (result) resolve(result); // if result id a success contibue to the output
-                         else reject(error); // if failed, reject the promise 
-                     } 
-                 ); 
-                 streamifier.createReadStream(req.file.buffer).pipe(stream); // streamifier the request file to the stream 
-             }); 
-         };
+      async function uploadToCloudinary(req) {
+          let result = await streamUpload(req);
+          return result.url; // Return the uploaded image URL
+      }
 
-         async function upload(req) { // async upload request 
-             let result = await streamUpload(req); // declare result from the stream upload 
-             return result; // Return the uploaded image url 
-         } 
-         upload(req).then((uploaded) => { // Upload successful, add article to content-service 
-             processArticle(uploaded.url); // Redirect to articles page after successful upload 
-         }).catch(err => res.status(500).json({ message: "Image upload failed", error: err })); // Error uploading
-     } else { 
-         processArticle(""); // Redirect to articles page without image if no image was provided 
-     }
-     function processArticle(imageUrl) { // Get the image
-            req.body.image = imageUrl; // Set the image URL in the request body 
-            // Add article to content-service 
-            blog.addArticle((req.body))  // Replace with actual content service method
-            .then(() => res.redirect('/articles')) // Redirect to articles page after successful article creation 
-            .catch(err => res.status(500).json({ message: "Article creation failed", error: err })); // Error creating article
-    } 
- });
+      uploadToCloudinary(req)
+          .then((imageUrl) => {
+              processArticle(imageUrl);
+          })
+          .catch((err) => {
+              res.status(500).json({ message: 'Image upload failed', error: err });
+          });
+  } else {
+      processArticle(""); // If no image uploaded, pass an empty string
+  }
+
+  function processArticle(imageUrl) {
+      // Build the article object
+      const articleData = {
+          title: req.body.title,
+          content: req.body.content,
+          category: req.body.category,
+          published: req.body.published === 'on', // Checkbox value
+          featureImage: imageUrl || "", // Use the uploaded image URL or empty string
+          postDate: new Date().toISOString() // Current timestamp
+      };
+
+      // Call content-service to add the article
+      contentService.addArticle(articleData)
+          .then(() => res.redirect('/articles')) // Redirect to articles page on success
+          .catch((err) => res.status(500).json({ message: 'Failed to add article', error: err }));
+  }
 });
-app.listen(HTTP_PORT, () => console.log(`Express http server listening on port ${HTTP_PORT}`));
+
+
+// Initialize the data in the storeData module, then start the server
+contentService.initialize().then(() => {
+  app.listen(HTTP_PORT); // Start server and listen on specified port
+  console.log("server listening @ http://localhost:" + HTTP_PORT);
+});
+
+// Export the Express app instance (useful for testing or external usage)
+module.exports = app;
