@@ -73,13 +73,11 @@ app.get('/articles', (req, res, next) => {
       // If no query parameters, fetch all articles
       contentService.getAllArticles()
           .then((articles) => {
-              res.json(articles);
+            res.render('articles', { user: articles });
           })
           .catch((err) => {
               res.status(404).json({ message: err });
           });
-
-          res.render('articles', { user: articles });
   }
 });
 
@@ -88,7 +86,10 @@ app.get("/article/:Id", (req, res) => {
   contentService
     .getArticleById(req.params.Id)
     .then((article) => {
-      res.json(article);
+      if (article.published) { 
+        res.render('article', { article: article }); 
+      } else { 
+        res.status(404).send('Article not found'); }
     })
     .catch((err) => {
       res.status(404).json({ message: err });
