@@ -54,8 +54,12 @@ function getArticlesByCategory(category) {
 
 function getAllArticles() {
   return new Promise((resolve, reject) => {
-     resolve(articles);
+    const updatedArticles = articles.map(article => { 
+      const category = categories.find(cat => cat.id === article.category);
+      article.categoryName = category ? category.name : 'Unknown';
   });
+  resolve(articles);
+});
 }
 
 function getArticlesByMinDate(minDateStr) {
@@ -74,7 +78,11 @@ function getArticlesByMinDate(minDateStr) {
 function getArticleById(Id) {
   return new Promise((resolve, reject) => {
     const foundArticle = articles.find((article) => article.Id == parseInt(Id));
-    if (foundArticle) resolve(foundArticle);
+    if (foundArticle) {
+      const category = categories.find(cat => cat.id === article.category); 
+      article.categoryName = category ? category.name : 'Unknown';
+      resolve(foundArticle);
+    }
     else reject("no result returned");
   });
 }
