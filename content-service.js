@@ -21,13 +21,13 @@ function initialize() {
       fs.readFile("./data/articles.json", "utf8", (err, art) => {
         if (err) return reject(err); // Reject the promise if an error occurs during file read
         articles = JSON.parse(art); // Parse and store articles data
-
         // We call resolve() only once, after both files have been successfully read and parsed.
         // Calling resolve() here signifies that initialization is complete and both categories
         // and articles data are ready for use. If we called resolve() earlier, it would
         // prematurely indicate that initialization was complete before loading both files.
         resolve();
       });
+      
     });
   });
 }

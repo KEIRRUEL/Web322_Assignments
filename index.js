@@ -27,6 +27,7 @@ const app = express();
 // Set the HTTP port to an environment variable or default to 3838
 const HTTP_PORT = process.env.PORT || 3838;
 
+app.set('view engine', 'ejs');
 // Serve static files from the "public" directory (e.g., CSS, JS files, images)
 app.use(express.static("public"));
 
@@ -43,7 +44,9 @@ app.get("/about", (req, res) => {
 // Route for the "/categories" endpoint, returning categories in JSON format
 app.get("/categories", (req, res) => {
   contentService.getCategories().then((data) => {
-    res.json(data); // Respond with categories as JSON
+    res.render('categories', { categories: data });
+  }).catch((err) => {
+    res.status(404).json({ message: err });
   });
 });
 
@@ -52,7 +55,7 @@ app.get('/articles', (req, res, next) => {
       // Handle filtering by category
       contentService.getArticlesByCategory(req.query.category)
           .then((articles) => {
-              res.json(articles);
+            res.render('articles', { articles: articles });
           })
           .catch((err) => {
               res.status(404).json({ message: err });
@@ -75,6 +78,8 @@ app.get('/articles', (req, res, next) => {
           .catch((err) => {
               res.status(404).json({ message: err });
           });
+
+          res.render('articles', { user: articles });
   }
 });
 
