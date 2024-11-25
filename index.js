@@ -55,7 +55,7 @@ app.get('/articles', (req, res, next) => {
       // Handle filtering by category
       contentService.getArticlesByCategory(req.query.category)
           .then((articles) => {
-            res.render('articles', { articles: articles });
+            res.render('articles', { user: articles });
           })
           .catch((err) => {
               res.status(404).json({ message: err });
@@ -64,7 +64,7 @@ app.get('/articles', (req, res, next) => {
       // Handle filtering by minDate
       contentService.getArticlesByMinDate(req.query.minDate)
           .then((articles) => {
-              res.json(articles);
+            res.render('articles', { user: articles });
           })
           .catch((err) => {
               res.status(404).json({ message: err });

@@ -5,7 +5,8 @@
         "content": "A man, a guy using a woman..",
         "author": "Steve lung",
         "published": false,
-        "category":"HeartBreaks"
+        "category":"HeartBreaks",
+        "date":null
     },
     {
         "id":2,
@@ -13,6 +14,16 @@
         "content": "Filipino-American war, filipino heroes...",
         "author": "Dr. Jose Rizal",
         "published": true,
-        "category": "History"
+        "category": "History",
+        "date":"September 18, 1891"
+    },
+    {
+        "id":3,
+        "title": "Arcane",
+        "content": "Legend of the runic arcane, war between piltover and zaun...",
+        "author": "Riot Games",
+        "published": true,
+        "category": "League of Legends",
+        "date":"November 23, 2024"
     }
 ]
