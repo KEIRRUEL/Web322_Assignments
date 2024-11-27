@@ -1,8 +1,9 @@
 // Import the 'fs' module for interacting with the file system
 const fs = require("fs");
 const { parse } = require("path");
-const filepath = path.join(process.cwd(), "./data/categories.json")
-const articlesPath = path.join(process.cwd(), "./data/articles.json")
+const path = require("path");
+const filepath = path.join(process.cwd(), "data/categories.json")
+const articlesPath = path.join(process.cwd(), "data/articles.json")
 // Arrays to store categories and articles data loaded from JSON files
 let categories = [];
 let articles = [];
