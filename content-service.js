@@ -2,6 +2,7 @@
 const fs = require("fs");
 const { parse } = require("path");
 const filepath = path.join(process.cwd(), "./data/categories.json")
+const articlesPath = path.join(process.cwd(), "./data/articles.json")
 // Arrays to store categories and articles data loaded from JSON files
 let categories = [];
 let articles = [];
@@ -18,7 +19,7 @@ function initialize() {
       // We nest the second file read inside the first because we want to ensure that categories.json
       // is successfully read and parsed before moving on to articles.json.
       // This way, we load both files sequentially and can handle any errors independently.
-      fs.readFile("data/articles.json", "utf8", (err, art) => {
+      fs.readFile(articlesPath, "utf8", (err, art) => {
         if (err) return reject(err); // Reject the promise if an error occurs during file read
         articles = JSON.parse(art); // Parse and store articles data
         // We call resolve() only once, after both files have been successfully read and parsed.
