@@ -17,7 +17,6 @@ const upload = multer();
 
 // Import the 'path' module to handle file paths
 const path = require("path");
-
 // Import the custom data handling module, assumed to manage categories and articles
 const contentService = require("./content-service");
 
