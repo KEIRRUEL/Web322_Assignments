@@ -13,5 +13,10 @@
         "src": "/(.*)",
         "dest": "index.js"
       }
-    ]
+    ],
+    "functions": {
+      "*.js":{
+        "includeFiles": ["data/categories.json","data/articles.json"]
+      }
+    }
   }
