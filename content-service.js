@@ -10,7 +10,7 @@ let articles = [];
 function initialize() {
   return new Promise((resolve, reject) => {
     // Read the categories data from categories.json file
-    fs.readFile("./data/categories.json", "utf8", (err, cat) => {
+    fs.readFile("data/categories.json", "utf8", (err, cat) => {
       if (err) return reject(err); // Reject the promise if an error occurs during file read
       categories = JSON.parse(cat); // Parse and store categories data
 
@@ -18,7 +18,7 @@ function initialize() {
       // We nest the second file read inside the first because we want to ensure that categories.json
       // is successfully read and parsed before moving on to articles.json.
       // This way, we load both files sequentially and can handle any errors independently.
-      fs.readFile("./data/articles.json", "utf8", (err, art) => {
+      fs.readFile("data/articles.json", "utf8", (err, art) => {
         if (err) return reject(err); // Reject the promise if an error occurs during file read
         articles = JSON.parse(art); // Parse and store articles data
         // We call resolve() only once, after both files have been successfully read and parsed.
