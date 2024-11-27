@@ -27,6 +27,7 @@ const app = express();
 // Set the HTTP port to an environment variable or default to 3838
 const HTTP_PORT = process.env.PORT || 3838;
 
+app.set("views",__dirname + '/views');
 app.set('view engine', 'ejs');
 // Serve static files from the "public" directory (e.g., CSS, JS files, images)
 app.use(express.static("public"));
@@ -83,11 +84,10 @@ app.get('/articles', (req, res, next) => {
 
 
 app.get("/article/:Id", (req, res) => {
-  contentService
-    .getArticleById(req.params.Id)
+  contentService.getArticleById(req.params.Id)
     .then((article) => {
       if (article.published) { 
-        res.render('article', { article: article }); 
+        res.render('articles', { user: article}); 
       } else { 
         res.status(404).send('Article not found'); }
     })

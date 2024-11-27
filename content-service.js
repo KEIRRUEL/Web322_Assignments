@@ -78,11 +78,7 @@ function getArticlesByMinDate(minDateStr) {
 function getArticleById(Id) {
   return new Promise((resolve, reject) => {
     const foundArticle = articles.find((article) => article.Id == parseInt(Id));
-    if (foundArticle) {
-      const category = categories.find(cat => cat.id === article.category); 
-      article.categoryName = category ? category.name : 'Unknown';
-      resolve(foundArticle);
-    }
+    if (foundArticle) resolve(foundArticle);
     else reject("no result returned");
   });
 }

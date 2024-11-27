@@ -32,7 +32,7 @@
               <% user.forEach(data=>{ %>
               <!-- starting a loop in here -->
               <!-- data to output while the loop is running -->
-              <h2><%= data.title %></h2>
+              <h2><a href="/article/<%= data.id %>"><%= data.title %></a></h2>
               <h3><%= data.content %></h3>
               <p>
                 <strong>Category:</strong> <%= data.category %>
