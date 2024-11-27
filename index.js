@@ -27,7 +27,7 @@ const app = express();
 // Set the HTTP port to an environment variable or default to 3838
 const HTTP_PORT = process.env.PORT || 3838;
 
-app.set("views",__dirname + '/views');
+app.set("views",__dirname + "/views");
 app.set('view engine', 'ejs');
 // Serve static files from the "public" directory (e.g., CSS, JS files, images)
 app.use(express.static("public"));
