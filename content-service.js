@@ -1,7 +1,7 @@
 // Import the 'fs' module for interacting with the file system
 const fs = require("fs");
 const { parse } = require("path");
-
+const filepath = path.join(process.cwd(), "./data/categories.json")
 // Arrays to store categories and articles data loaded from JSON files
 let categories = [];
 let articles = [];
@@ -10,7 +10,7 @@ let articles = [];
 function initialize() {
   return new Promise((resolve, reject) => {
     // Read the categories data from categories.json file
-    fs.readFile("data/categories.json", "utf8", (err, cat) => {
+    fs.readFile(filepath, "utf8", (err, cat) => {
       if (err) return reject(err); // Reject the promise if an error occurs during file read
       categories = JSON.parse(cat); // Parse and store categories data
 
