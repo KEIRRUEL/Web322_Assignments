@@ -79,12 +79,19 @@ function getArticlesByMinDate(minDateStr) {
 
 function getArticleById(Id) {
   return new Promise((resolve, reject) => {
-    const foundArticle = articles.find((article) => article.Id == parseInt(Id));
+    const foundArticle = articles.find((article) => article.Id == parseInt(Id)); // parsing the input "id".
     if (foundArticle) resolve(foundArticle);
     else reject("no result returned");
   });
 }
 
+function getArticleBytitle(title) {
+  return new Promise((resolve, reject) => {
+    const foundArticle = articles.find((article) => article.title == parseInt(title));
+    if (foundArticle) resolve(foundArticle);
+    else reject("no result returned");
+  });
+}
 // Function to get only published articles by filtering the articles array
 function getPublishedArticles() {
   return Promise.resolve(articles.filter((article) => article.published)); // Return only articles with `published: true`

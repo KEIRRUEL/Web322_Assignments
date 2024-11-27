@@ -26,7 +26,7 @@ const app = express();
 // Set the HTTP port to an environment variable or default to 3838
 const HTTP_PORT = process.env.PORT || 3838;
 
-app.set("views",__dirname + "/views");
+app.set("views",__dirname + "/views");// trying to debug this goofy ahh vercel problem.
 app.set('view engine', 'ejs');
 // Serve static files from the "public" directory (e.g., CSS, JS files, images)
 app.use(express.static("public"));
@@ -55,7 +55,7 @@ app.get('/articles', (req, res, next) => {
       // Handle filtering by category
       contentService.getArticlesByCategory(req.query.category)
           .then((articles) => {
-            res.render('articles', { user: articles });
+            res.render('articles', { user: articles }); // filtered by category
           })
           .catch((err) => {
               res.status(404).json({ message: err });
@@ -64,7 +64,7 @@ app.get('/articles', (req, res, next) => {
       // Handle filtering by minDate
       contentService.getArticlesByMinDate(req.query.minDate)
           .then((articles) => {
-            res.render('articles', { user: articles });
+            res.render('articles', { user: articles }); // rendering articles by filtering by minDate
           })
           .catch((err) => {
               res.status(404).json({ message: err });
@@ -73,7 +73,7 @@ app.get('/articles', (req, res, next) => {
       // If no query parameters, fetch all articles
       contentService.getAllArticles()
           .then((articles) => {
-            res.render('articles', { user: articles });
+            res.render('articles', { user: articles }); // rendering all articles
           })
           .catch((err) => {
               res.status(404).json({ message: err });
@@ -82,11 +82,11 @@ app.get('/articles', (req, res, next) => {
 });
 
 
-app.get("/article/:Id", (req, res) => {
+app.get("/article/:Id", (req, res) => { 
   contentService.getArticleById(req.params.Id)
     .then((article) => {
       if (article.published) { 
-        res.render('articles', { user: article}); 
+        res.render('articles', { user: article}); // updated the getter for the articles.json. Only retrieve the given "Id".
       } else { 
         res.status(404).send('Article not found'); }
     })
