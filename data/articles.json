@@ -1,29 +1,29 @@
 [
     {
-        "id": 1,
+        "Id": 1,
         "title": "Bad",
         "content": "A man, a guy using a woman..",
         "author": "Steve lung",
         "published": false,
         "category":"HeartBreaks",
-        "date":null
+        "articleDate":null
     },
     {
-        "id":2,
+        "Id":2,
         "title": "The reign of greed",
         "content": "Filipino-American war, filipino heroes...",
         "author": "Dr. Jose Rizal",
         "published": true,
         "category": "History",
-        "date":"September 18, 1891"
+        "articleDate":"1891-09-18"
     },
     {
-        "id":3,
+        "Id":3,
         "title": "Arcane",
         "content": "Legend of the runic arcane, war between piltover and zaun...",
         "author": "Riot Games",
         "published": true,
         "category": "League of Legends",
-        "date":"November 23, 2024"
+        "articleDate": "2024-02-05"
     }
 ]

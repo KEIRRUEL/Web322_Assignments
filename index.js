@@ -51,24 +51,29 @@ app.get("/categories", (req, res) => {
 });
 
 app.get('/articles', (req, res, next) => {
-  if (req.query.category) {
+  if (req.query.categoryId) {
       // Handle filtering by category
-      contentService.getArticlesByCategory(req.query.category)
-          .then((articles) => {
-            res.render('articles', { user: articles }); // filtered by category
+      contentService.getArticlesByCategory(req.query.categoryId)
+          .then((article) => {
+            res.render('article', { user: article }); // filtered by category
           })
           .catch((err) => {
               res.status(404).json({ message: err });
           });
-  } else if (req.query.minDate) {
+  } else if (req.params.minDateStr) {
       // Handle filtering by minDate
-      contentService.getArticlesByMinDate(req.query.minDate)
-          .then((articles) => {
-            res.render('articles', { user: articles }); // rendering articles by filtering by minDate
-          })
-          .catch((err) => {
-              res.status(404).json({ message: err });
-          });
+      app.get("/article/:?minDateStr", (req, res) => { 
+      contentService.getArticlesByMinDate(req.params["?minDateStr"])
+      .then((article) => {
+        if (article.published) { 
+          res.render('article', { user: article}); // updated the getter for the articles.json. Only retrieve the given "Id".
+        } else { 
+          res.status(404).send('Article not found'); }
+      })
+      .catch((err) => {
+        res.status(404).json({ message: err });
+      });
+    });
   } else {
       // If no query parameters, fetch all articles
       contentService.getAllArticles()
@@ -86,7 +91,7 @@ app.get("/article/:Id", (req, res) => {
   contentService.getArticleById(req.params.Id)
     .then((article) => {
       if (article.published) { 
-        res.render('articles', { user: article}); // updated the getter for the articles.json. Only retrieve the given "Id".
+        res.render('article', { user: article}); // updated the getter for the articles.json. Only retrieve the given "Id".
       } else { 
         res.status(404).send('Article not found'); }
     })
@@ -96,7 +101,15 @@ app.get("/article/:Id", (req, res) => {
 });
 
 app.get("/articles/add", (req, res) => {
-  res.render(path.join(__dirname, "views", "addArticle.ejs"));
+  // res.render(path.join(__dirname, "views", "addArticle.ejs"));
+  // res.render('addArticle',{ categories });
+  contentService.getCategories()
+          .then((articleData) => {
+            res.render('addArticle', { categories: articleData }); // rendering all articles
+          })
+          .catch((err) => {
+              res.status(404).json({ message: err });
+          });
 });
 
 app.post('/articles/add', upload.single("featureImage"), (req, res) => {

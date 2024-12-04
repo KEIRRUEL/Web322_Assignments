@@ -1,18 +1,18 @@
-<!DOCTYPE html> 
-<!-- Adding css style with bootstrap in the articles ejs -->
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link href="../index.js" />
-    <link href="/css/main.css" rel="stylesheet" />
+    <title>HNN - Harry News Network</title>
+    <!-- Bootstrap CSS -->
     <link
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link href="/css/main.css" rel="stylesheet" />
   </head>
   <body>
+    <!-- Header with Navigation -->
     <header class="bg-primary text-white p-3">
       <div class="container">
         <nav class="nav justify-content-center">
@@ -24,41 +24,57 @@
         </nav>
       </div>
     </header>
+
+    <!-- Content Area -->
     <main class="container my-4">
       <div class="content p-4 bg-light">
-        <h1>Articles</h2>
+        <h2><a href="/articles/">Articles</a></h2>
+
+        <!-- Bootstrap Table -->
         <table class="table table-striped table-bordered">
-          <thead class="thead-white">
+          <thead class="thead-dark">
             <tr>
-              <% user.forEach(data=>{ %>
-              <!-- starting a loop in here -->
-              <!-- data to output while the loop is running -->
-              <h2><a href="/article/<%= data.id %>"><%= data.title %></a></h2>
-              <h3><%= data.content %></h3>
-              <p>
-                <strong>Category:</strong> <%= data.category %>
-              </p>
-              <p><strong>Author:</strong> <%= data.author %></p>
-              <p><strong>Date:</strong> <%= data.date %></p>
-              <br />
-              <% }) %>
+              <th scope="col">Title</th>
+              <th scope="col">Author</th>
+              <th scope="col">Published</th>
+              <th scope="col">Category</th>
+              <th scope="col">Article Date</th>
             </tr>
           </thead>
+          <tbody>
+            <% user.forEach((article) => { %>
+            <tr>
+              <td>
+                <a href="/article/<%= article.Id %>"><%= article.title %></a>
+              </td>
+              <td><%= article.author %></td>
+              <td><%= article.published ? "Yes" : "No" %></td>
+              <td>
+                <a href="/articles?category=<%= article.category %>"
+                  ><%= article.categoryName %></a
+                >
+              </td>
+              <td><%= article.articleDate %></td>
+            </tr>
+            <% }); %>
+          </tbody>
         </table>
       </div>
     </main>
 
-    <!-- <footer class="bg-dark text-white text-center py-3">
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
       <div class="container">
         <p>
-          © 2024 Keir Ruel Lazara, 1234567,
-          <a href="mailto:klazara@senecapolytechnic.ca"
-            >klazara@senecapolytechnic.ca</a
+          © 2024 Harry Scanlan, 1234567,
+          <a href="mailto:harry.scanlan@senecapolytechnic.ca"
+            >harry.scanlan@senecapolytechnic.ca</a
           >. All rights reserved.
         </p>
       </div>
-    </footer> -->
-    <!-- end of the loop -->
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

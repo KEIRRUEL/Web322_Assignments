@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Keir Ruel's Web server</title>
+    <title>HNN - Harry News Network</title>
     <!-- Bootstrap CSS -->
     <link
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -47,6 +47,19 @@
             />
           </div>
 
+          <!-- Author -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Author</label>
+            <input
+              type="text"
+              id="author"
+              name="author"
+              class="form-control"
+              placeholder="Enter author full name"
+              required
+            />
+          </div>
+
           <!-- Content -->
           <div class="mb-3">
             <label for="content" class="form-label">Article Content</label>
@@ -63,11 +76,10 @@
           <!-- Category -->
           <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            <select id="category" name="category" class="form-select" required>
-              <option value="News">News</option>
-              <option value="Sports">Sports</option>
-              <option value="Technology">Technology</option>
-              <option value="Entertainment">Entertainment</option>
+            <select class="form-control" name="category" id="category">
+              <% categories.forEach((category) => { %>
+              <option value="<%= category.Id %>"><%= category.name %></option>
+              <% }); %>
             </select>
           </div>
 
@@ -101,18 +113,6 @@
         </form>
       </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
-      <div class="container">
-        <p>
-          © 2024 Harry Scanlan, 1234567,
-          <a href="mailto:klazara@senecapolytechnic.ca"
-            >klazara@senecapolytechnic.ca</a
-          >. All rights reserved.
-        </p>
-      </div>
-    </footer>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
