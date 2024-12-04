@@ -8,7 +8,7 @@ body
 
 footer
 {
-    background-color: yellow;
+    color: yellow;
     font-size: 18px;
     padding: 35px;
     text-align: center;
@@ -20,4 +20,7 @@ footer
 a
 {
     color:black;
+}
+.email{
+    color: yellow;
 }
