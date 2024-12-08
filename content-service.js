@@ -1,7 +1,6 @@
 // Import the 'fs' module for interacting with the file system
 const fs = require("fs");
 const { parse } = require("path");
-
 // Arrays to store categories and articles data loaded from JSON files
 let categories = [];
 let articles = [];
@@ -13,7 +12,10 @@ function initialize() {
     fs.readFile("./data/categories.json", "utf8", (err, cat) => {
       if (err) return reject(err); // Reject the promise if an error occurs during file read
       categories = JSON.parse(cat); // Parse and store categories data
-
+      categories.forEach(item=>{
+        const text = 'INSET INTO categories(id,name) VALUES($1,$2)';
+        const values = [item.id,item.name];
+      });
       // Nested readFile for articles.json
       // We nest the second file read inside the first because we want to ensure that categories.json
       // is successfully read and parsed before moving on to articles.json.
@@ -21,7 +23,10 @@ function initialize() {
       fs.readFile("./data/articles.json", "utf8", (err, art) => {
         if (err) return reject(err); // Reject the promise if an error occurs during file read
         articles = JSON.parse(art); // Parse and store articles data
-
+        articles.forEach(item=>{
+          const ar_text = 'INSET INTO categories(id,title,content,author,published,category,articleDate) VALUES($1,$2,$3,$4,$5,$6,$7)';
+          const ar_values = [item.id,item.title,item.content,item.author,item.published,item.category,item.articleDate];
+        });
         // We call resolve() only once, after both files have been successfully read and parsed.
         // Calling resolve() here signifies that initialization is complete and both categories
         // and articles data are ready for use. If we called resolve() earlier, it would

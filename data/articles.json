@@ -25,5 +25,14 @@
         "published": true,
         "category": "League of Legends",
         "articleDate": "2024-02-05"
+    },
+    {
+        "Id":4,
+        "title": "Oppenheimer",
+        "content": "Discovery of molecule atoms, the creation of Fat Man and Little Boy...",
+        "author": "christopher Nolan",
+        "published": true,
+        "category": "Science",
+        "articleDate": "2023-07-21"
     }
 ]
