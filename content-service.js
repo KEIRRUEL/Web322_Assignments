@@ -1,6 +1,15 @@
 // Import the 'fs' module for interacting with the file system
 const fs = require("fs");
 const { parse } = require("path");
+const { Pool } = require('pg');
+const pool = new Pool({
+  user: 'neondb_owner',
+  host: 'ep-lively-poetry-a5o8h4hu.us-east-2.aws.neon.tech',
+  database: 'neondb',
+  password: '7PcjRBb5vQCM',
+  port: 5432, // Use Neon.tech's port if different
+  ssl: { rejectUnauthorized: false }, // Required for Neon.tech
+  });
 // Arrays to store categories and articles data loaded from JSON files
 let categories = [];
 let articles = [];
@@ -13,7 +22,7 @@ function initialize() {
       if (err) return reject(err); // Reject the promise if an error occurs during file read
       categories = JSON.parse(cat); // Parse and store categories data
       categories.forEach(item=>{
-        const text = 'INSET INTO categories(id,name) VALUES($1,$2)';
+        const text = 'INSERT INTO categories(id,name) VALUES($1,$2)';
         const values = [item.id,item.name];
       });
       // Nested readFile for articles.json
@@ -24,8 +33,8 @@ function initialize() {
         if (err) return reject(err); // Reject the promise if an error occurs during file read
         articles = JSON.parse(art); // Parse and store articles data
         articles.forEach(item=>{
-          const ar_text = 'INSET INTO categories(id,title,content,author,published,category,articleDate) VALUES($1,$2,$3,$4,$5,$6,$7)';
-          const ar_values = [item.id,item.title,item.content,item.author,item.published,item.category,item.articleDate];
+          const text = 'INSERT INTO articles(id,title,content,author,published,category,articleDate) VALUES($1,$2,$3,$4,$5,$6,$7)';
+          const values = [item.id,item.title,item.content,item.author,item.published,item.category,item.articledate];
         });
         // We call resolve() only once, after both files have been successfully read and parsed.
         // Calling resolve() here signifies that initialization is complete and both categories
@@ -43,13 +52,15 @@ function getCategoryName(categoryId) {
   return category ? category.name : "Unknown";
 }
 
-function addArticle(articleData) {
-  return new Promise((resolve, reject) => {
-    articleData.published = articleData.published ? true : false;
-    articleData.Id = articles.length + 1; // Set ID to the current length + 1
-    articles.push(articleData);
-    resolve(articleData);
-  });
+async function addArticle(item) {
+  const text = 'INSERT INTO articles(id,title,content,author,published,category,articleDate) VALUES($1,$2,$3,$4,$5,$6,$7)';
+  const values = [item.id,item.title,item.content,item.author,item.published,item.category,item.articleDate]; 
+  try {
+    const res = await pool.query(text, values);
+    return res.rows[0];
+  } catch (err) {
+    return await Promise.reject('No results returned');
+  }
 }
 
 // Function to get articles by category and include the category name
@@ -72,11 +83,11 @@ function getArticlesByCategory(categoryId) {
 }
 
 function getAllArticles() {
-  return Promise.resolve(articles.map(article => ({
-    ...article,
-    categoryName: getCategoryName(article.category) // Add categoryName based on categoryId
-  })));
+  return pool.query('SELECT * FROM articles')
+.then(res => res.rows)
+.catch(err => Promise.reject('No results returned'));
 }
+
 
 // Function to get articles by minimum date and add category name
 function getArticlesByMinDate(minDateStr) {
@@ -113,9 +124,10 @@ function getPublishedArticles() {
 
 // Function to get all categories
 function getCategories() {
-  return Promise.resolve(categories); // Return the categories array as a resolved promise
+  return pool.query('SELECT * FROM categories')
+.then(res => res.rows)
+.catch(err => Promise.reject('No results returned')) // Return the categories array as a resolved promise
 }
-
 // Function to get all articles and add category name
 function getArticles() {
   return Promise.resolve(articles.map(article => ({

@@ -77,8 +77,8 @@ app.get('/articles', (req, res, next) => {
   } else {
       // If no query parameters, fetch all articles
       contentService.getAllArticles()
-          .then((articles) => {
-            res.render('articles', { user: articles }); // rendering all articles
+          .then((data) => {
+            res.render('articles', { articles: data }); // rendering all articles
           })
           .catch((err) => {
               res.status(404).json({ message: err });
@@ -86,9 +86,8 @@ app.get('/articles', (req, res, next) => {
   }
 });
 
-
-app.get("/article/:Id", (req, res) => { 
-  contentService.getArticleById(req.params.Id)
+app.get("/article/:id", (req, res) => { 
+  contentService.getArticleById(req.params.id)
     .then((article) => {
       if (article.published) { 
         res.render('article', { user: article}); // updated the getter for the articles.json. Only retrieve the given "Id".

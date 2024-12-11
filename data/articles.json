@@ -1,6 +1,6 @@
 [
     {
-        "Id": 1,
+        "id": 1,
         "title": "Bad",
         "content": "A man, a guy using a woman..",
         "author": "Steve lung",
@@ -9,7 +9,7 @@
         "articleDate":null
     },
     {
-        "Id":2,
+        "id":2,
         "title": "The reign of greed",
         "content": "Filipino-American war, filipino heroes...",
         "author": "Dr. Jose Rizal",
@@ -18,7 +18,7 @@
         "articleDate":"1891-09-18"
     },
     {
-        "Id":3,
+        "id":3,
         "title": "Arcane",
         "content": "Legend of the runic arcane, war between piltover and zaun...",
         "author": "Riot Games",
@@ -27,7 +27,7 @@
         "articleDate": "2024-02-05"
     },
     {
-        "Id":4,
+        "id":4,
         "title": "Oppenheimer",
         "content": "Discovery of molecule atoms, the creation of Fat Man and Little Boy...",
         "author": "christopher Nolan",
