@@ -31,3 +31,4 @@ https://web322-assignments-an4e7mdib-lebonbons-projects.vercel.app/
 By submitting this as my assignment, I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part of this assignment has been copied manually or electronically from any other source (including web sites) or distributed to other students.
 In this updated server, what I did is updated the manipulation of output of datas from jason files. Users can now query all categories and articles. They also can
 parse if they only want to retrieve a single data from the file. The server is also dynamic and they can also input data and send it on the server.
+Migrate my json datas to neondb for more complex integration. In able to retrieve and query the migrated data from neondb to the UI, you need to use sql's display statements for it.
