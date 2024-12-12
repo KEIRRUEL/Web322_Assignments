@@ -98,7 +98,24 @@ app.get("/article/:id", (req, res) => {
       res.status(404).json({ message: err });
     });
 });
+app.put('/articles/:id', (req, res) => {
+  contentService.getArticleById(req.params.id)
+  const article = req.body;
+  const text = 'UPDATE articles SET title = $1, content = $2, author = $3, published = $4, category = $5, articledate = $6, category_id = $7 WHERE id = $8 RETURNING *';
+  const values = [article.title, article.content, article.author, article.published, article.category, article.articledate, article.category_id, id];
+  Pool.query(text, values)
+    .then(res.render('put', { data: values}))
+   .catch(err => Promise.reject('No results returned'));
+});
 
+app.delete('/articles/:id', (req, res) => {
+  contentService.getArticleById(req.params.id)
+  const text = 'DELETE FROM articles WHERE id = $1 RETURNING *';
+  const values = [id];
+  Pool.query(text, values)
+   .then(res.render('delete', { data: values}))
+   .catch(err => Promise.reject('No results returned'));
+});
 app.get("/articles/add", (req, res) => {
   // res.render(path.join(__dirname, "views", "addArticle.ejs"));
   // res.render('addArticle',{ categories });
