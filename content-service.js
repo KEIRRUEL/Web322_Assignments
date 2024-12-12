@@ -52,34 +52,19 @@ function getCategoryName(categoryId) {
   return category ? category.name : "Unknown";
 }
 
-async function addArticle(item) {
-  const text = 'INSERT INTO articles(id,title,content,author,published,category,articleDate) VALUES($1,$2,$3,$4,$5,$6,$7)';
-  const values = [item.id,item.title,item.content,item.author,item.published,item.category,item.articleDate]; 
-  try {
-    const res = await pool.query(text, values);
-    return res.rows[0];
-  } catch (err) {
-    return await Promise.reject('No results returned');
-  }
-}
+function addArticle(item) {
+  const text = 'INSERT INTO articles(title,content,author,published,category,articledate,category_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *';
+  const values = [item.title,item.content,item.author,item.published,item.category,item.articledate,item.category_id]; 
+  return pool.query(text, values)
+    .then(res => res.rows[0])
+    .catch(err => Promise.reject('No results returned'));
+};
 
 // Function to get articles by category and include the category name
 function getArticlesByCategory(categoryId) {
-  return new Promise((resolve, reject) => {
-    const filteredArticles = articles.filter(
-      (article) => article.category === parseInt(categoryId)
-    );
-    if (filteredArticles.length > 0) {
-      // Add category name to each article
-      const articlesWithCategoryName = filteredArticles.map(article => ({
-        ...article,
-        categoryName: getCategoryName(article.category) // Add category name
-      }));
-      resolve(articlesWithCategoryName);
-    } else {
-      reject("No results found");
-    }
-  });
+  return pool.query('SELECT * FROM articles WHERE category_id = $1', [categoryID])
+    .then(res => res.rows)
+    .catch(err => Promise.reject('No results returned'));
 }
 
 function getAllArticles() {
