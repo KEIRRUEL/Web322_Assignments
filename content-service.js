@@ -2,11 +2,14 @@
 const fs = require("fs");
 const { parse } = require("path");
 const { Pool } = require('pg');
+require('dotenv').config();
+const Host = process.env.HOST;
+const Pass = process.env.PASSWORD;
 const pool = new Pool({
   user: 'neondb_owner',
-  host: 'ep-lively-poetry-a5o8h4hu.us-east-2.aws.neon.tech',
+  host: Host,
   database: 'neondb',
-  password: '7PcjRBb5vQCM',
+  password: Pass,
   port: 5432, // Use Neon.tech's port if different
   ssl: { rejectUnauthorized: false }, // Required for Neon.tech
   });

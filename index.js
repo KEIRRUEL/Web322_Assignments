@@ -6,11 +6,13 @@ const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 
 const streamifier = require("streamifier");
-
+require('dotenv').config();
+const apiKey = process.env.API_KEY;
+const apiSecret = process.env.API_SECRET;
 cloudinary.config({ 
   cloud_name: 'dilreqd3n', 
-  api_key: '923798686465718', 
-  api_secret: 'RC9LSh6GmnViR_l23qFOSFWBjVI', 
+  api_key: apiKey,  
+  api_secret: apiSecret,  
   secure: true 
 });
 const upload = multer();
